@@ -121,7 +121,48 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+
+        # Split the arguments into class name and parameters
+        args_list = args.split()
+        class_name = args_list[0]
+        params = args_list[1:]
+
+        # Create a dictionary to store the parameters
+        parameters = {}
+
+        # Parse the parameters
+        for param in params:
+            # Split the parameter into key and value
+            key_value = param.split('=')
+            if len(key_value) != 2:
+                continue
+
+            key = key_value[0]
+            value = key_value[1]
+
+            # Handle string values
+            if value.startswith('"') and value.endswith('"'):
+                value = value[1:-1].replace('_', ' ').replace('\\"', '"')
+
+            # Handle float values
+            elif '.' in value:
+                try:
+                    value = float(value)
+                except ValueError:
+                    continue
+
+            # Handle integer values
+            else:
+                try:
+                    value = int(value)
+                except ValueError:
+                    continue
+
+            # Add the parameter to the dictionary
+            parameters[key] = value
+
+        # Create a new instance of the class with the parameters
+        new_instance = HBNBCommand.classes[class_name](**parameters)
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -129,7 +170,7 @@ class HBNBCommand(cmd.Cmd):
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
-        print("[Usage]: create <className>\n")
+        print("[Usage]: create <className> <param1=value1> <param2=value2> ...\n")
 
     def do_show(self, args):
         """ Method to show an individual object """
