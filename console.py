@@ -113,64 +113,45 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+    def do_create(self, arg):
+        """ Method to create a new object """
+        args = arg.split()
+        if len(args) == 0:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        class_name = args[0]
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
-        # Split the arguments into class name and parameters
-        args_list = args.split()
-        class_name = args_list[0]
-        params = args_list[1:]
+        new_object = HBNBCommand.classes[class_name]()
 
-        # Create a dictionary to store the parameters
-        parameters = {}
-
-        # Parse the parameters
-        for param in params:
-            # Split the parameter into key and value
-            key_value = param.split('=')
-            if len(key_value) != 2:
+        for param in args[1:]:
+            param_parts = param.split('=')
+            if len(param_parts) != 2:
                 continue
 
-            key = key_value[0]
-            value = key_value[1]
+            key = param_parts[0]
+            value = param_parts[1]
 
-            # Handle string values
             if value.startswith('"') and value.endswith('"'):
-                value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-
-            # Handle float values
+                value = value[1:-1].replace('_', ' ')
             elif '.' in value:
                 try:
                     value = float(value)
                 except ValueError:
                     continue
-
-            # Handle integer values
             else:
                 try:
                     value = int(value)
                 except ValueError:
                     continue
 
-            # Add the parameter to the dictionary
-            parameters[key] = value
+            setattr(new_object, key, value)
 
-        # Create a new instance of the class with the parameters
-        new_instance = HBNBCommand.classes[class_name](**parameters)
-        storage.save()
-        print(new_instance.id)
-        storage.save()
-
-    def help_create(self):
-        """ Help information for the create method """
-        print("Creates a class of any type")
-        print("[Usage]: create <className> <param1=value1> <param2=value2> ...\n")
+        new_object.save()
+        print(new_object.id)
 
     def do_show(self, args):
         """ Method to show an individual object """
