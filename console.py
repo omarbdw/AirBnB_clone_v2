@@ -113,45 +113,29 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, arg):
-        """ Method to create a new object """
-        args = arg.split()
-        if len(args) == 0:
+    def do_create(self, args):
+        """ Create an object of any class"""
+        my_list = args.split(' ')
+        if not args:
             print("** class name missing **")
             return
-
-        class_name = args[0]
-        if class_name not in HBNBCommand.classes:
+        elif my_list[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        new_instance = HBNBCommand.classes[my_list[0]]()
+        print(new_instance.id)
+        for params in my_list[1:]:
+            key_value = params.split('=')
+            key = key_value[0]
+            value = key_value[1]
+            table = {
+                34: None,  # Replace " with Nothing
+                95: 32  # Replace _ with space
+            }
+            value = value.translate(table)
+            setattr(new_instance, key, value)
+        new_instance.save()  # Save to storage
 
-        new_object = HBNBCommand.classes[class_name]()
-
-        for param in args[1:]:
-            param_parts = param.split('=')
-            if len(param_parts) != 2:
-                continue
-
-            key = param_parts[0]
-            value = param_parts[1]
-
-            if value.startswith('"') and value.endswith('"'):
-                value = value[1:-1].replace('_', ' ')
-            elif '.' in value:
-                try:
-                    value = float(value)
-                except ValueError:
-                    continue
-            else:
-                try:
-                    value = int(value)
-                except ValueError:
-                    continue
-
-            setattr(new_object, key, value)
-
-        new_object.save()
-        print(new_object.id)
 
     def do_show(self, args):
         """ Method to show an individual object """
