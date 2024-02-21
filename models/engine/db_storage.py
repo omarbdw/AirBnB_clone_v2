@@ -51,7 +51,7 @@ class DBStorage:
 
         if cls:
             '''Query for all objects belonging to cls'''
-            if type(cls) is str:
+            if isinstance(cls, str):
                 cls = eval(cls)
             query_rows = self.__session.query(cls)
             for obj in query_rows:

@@ -7,6 +7,7 @@ from models.city import City
 from models import storage
 from os import getenv
 
+
 class State(BaseModel):
     """ State class """
     __tablename__ = 'states'
