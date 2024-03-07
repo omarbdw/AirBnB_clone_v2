@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" Fabric script that creates and distributes an archive to web servers """
+""" Fabric script that creates and distributes
+an archive to web servers """
 from fabric.api import env, put, run
 import os
 
@@ -7,6 +8,15 @@ env.hosts = ['100.25.45.246', '18.204.11.210']
 
 
 def do_deploy(archive_path):
+    """
+    Deploys a compressed archive to the web server.
+
+    Args:
+        archive_path (str): The path to the compressed archive.
+
+    Returns:
+        bool: True if the deployment is successful, False otherwise.
+    """
     if not os.path.exists(archive_path):
         return False
 
