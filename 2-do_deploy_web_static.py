@@ -7,7 +7,7 @@ from fabric.api import env, put, run
 from os.path import exists
 
 
-env.hosts = ['<IP web-01>', 'IP web-02']
+env.hosts = ['100.25.45.246', '18.204.11.210']
 
 
 def do_deploy(archive_path):
@@ -26,7 +26,8 @@ def do_deploy(archive_path):
 
         # Uncompress the archive to /data/web_static/releases/<filename>/
         run('mkdir -p /data/web_static/releases/{}'.format(filename))
-        run('tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}'.format(filename, filename))
+        run('tar -xzf /tmp/{}.tgz'.format(filename))
+        run('-C /data/web_static/releases/{}'.format(filename))
 
         # Delete the archive from the web server
         run('rm /tmp/{}.tgz'.format(filename))
@@ -35,8 +36,9 @@ def do_deploy(archive_path):
         run('rm -rf /data/web_static/current')
 
         # Create a new symbolic link /data/web_static/current
-        run('ln -s /data/web_static/releases/{} /data/web_static/current'.format(filename))
+        run('ln -s /data/web_static/releases/{} '.format(filename) +
+            '/data/web_static/current'.format(filename))
 
         return True
-    except:
+    except Exception:
         return False
