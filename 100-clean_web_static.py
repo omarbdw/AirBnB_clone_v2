@@ -10,6 +10,15 @@ env.key_filename = '/root/.ssh/id_rsa'
 
 
 def do_clean(number=0):
+    """
+    Cleans up old versions of web_static on both the local and remote servers.
+
+    Args:
+            number (int): The number of versions to keep. Defaults to 0.
+
+    Returns:
+            None
+    """
     number = int(number)
     if number < 0:
         number = 0
