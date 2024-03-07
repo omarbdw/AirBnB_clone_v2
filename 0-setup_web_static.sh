@@ -1,34 +1,34 @@
 #!/usr/bin/env bash
+# This script sets up web servers for the deployment of web_static
 
-# Update package lists and install nginx
-apt-get -y update
-apt-get -y install nginx
+# Install Nginx if not already installed
+if ! command -v nginx &> /dev/null; then
+	sudo apt-get update
+	sudo apt-get install -y nginx
+fi
 
-# Create necessary directories
-mkdir -p /data/web_static/shared/
-mkdir -p /data/web_static/releases/test/
+# Create necessary folders if they don't exist
+sudo mkdir -p /data/web_static/releases/test
+sudo mkdir -p /data/web_static/shared
 
-# Create index.html file with sample content
+# Create a fake HTML file for testing
 echo "<html>
   <head>
   </head>
   <body>
     Holberton School
   </body>
-</html>" > /data/web_static/releases/test/index.html
+</html>" | sudo tee /data/web_static/releases/test/index.html > /dev/null
 
-# Create symbolic link to current release
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+# Create or recreate symbolic link
+sudo rm -rf /data/web_static/current
+sudo ln -sf /data/web_static/releases/test /data/web_static/current
 
-# Change ownership of directories to ubuntu user
-chown -R ubuntu:ubuntu /data/
+# Set ownership of /data/ folder to ubuntu user and group
+sudo chown -R ubuntu:ubuntu /data/
 
-# Add configuration for serving static files
-sed -i "61i\
-\tlocation /hbnb_static {\
-\t\talias /data/web_static/current;\
-\t\tautoindex off;\
-\t}" /etc/nginx/sites-available/default
+# Update Nginx configuration
+sudo sed -i '51 i \\n\tlocation /hbnb_static {\n\talias /data/web_static/current;\n\t}' /etc/nginx/sites-available/default
 
-# Restart nginx service
-service nginx restart
+# Restart Nginx
+sudo service nginx restart
