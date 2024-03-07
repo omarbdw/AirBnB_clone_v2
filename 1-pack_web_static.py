@@ -1,26 +1,25 @@
 #!/usr/bin/python3
 """
-This module contains a Fabric script that generates a .tgz
-archive from the contents of the web_static folder.
+Fabric script that Generates a .tgz archive
 """
 from fabric.api import local
 from datetime import datetime
+import os
 
 
 def do_pack():
-    """
-    Compresses the contents of the web_static folder into a .tgz archive.
-
-    Returns:
-            str: The path to the generated archive
-            if successful, None otherwise.
-    """
+    '''
+    Generates a tgz archive from the
+    contents of the web_static folder
+    '''
     try:
-        now = datetime.now()
-        archive_name = "web_static_{}{}{}{}{}{}.tgz".format(
-            now.year, now.month, now.day, now.hour, now.minute, now.second)
-        local("sudo mkdir -p versions")
-        local("sudo tar -czvf versions/{} web_static".format(archive_name))
-        return "versions/{}".format(archive_name)
-    except Exception:
+        local('mkdir -p versions')
+        datetime_format = '%Y%m%d%H%M%S'
+        archive_path = 'versions/web_static_{}.tgz'.format(
+            datetime.now().strftime(datetime_format))
+        local('tar -cvzf {} web_static'.format(archive_path))
+        print('web_static packed: {} -> {}'.format(archive_path,
+              os.path.getsize(archive_path)))
+    except:
         return None
+    
