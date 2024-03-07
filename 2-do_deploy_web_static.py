@@ -16,8 +16,8 @@ def do_deploy(archive_path):
         # Extract the archive to /data/web_static/releases/<archive
         # filename without extension> on the web server
         filename = os.path.basename(archive_path)
-        folder_name = '/data/web_static/releases/' +
-        os.path.splitext(filename)[0]
+        folder_name = '/data/web_static/releases/' + 
+os.path.splitext(filename)[0]
         run('mkdir -p {}'.format(folder_name))
         run('tar -xzf /tmp/{} -C {}'.format(filename, folder_name))
 
