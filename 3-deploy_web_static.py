@@ -32,35 +32,46 @@ def do_pack():
 
 def do_deploy(archive_path):
     """
-    Distributes an archive to web servers
+    Deploys a compressed archive to the web server.
+
+    Args:
+        archive_path (str): The path to the compressed archive.
+
+    Returns:
+        bool: True if the deployment is successful, False otherwise.
     """
-    # Check if the archive file exists
-    if not exists(archive_path):
+    if not os.path.exists(archive_path):
         return False
+
     try:
-        # Extract the filename from the archive path
-        filename = archive_path.split('/')[-1]
-        # Define the path where the archive will be extracted
-        name = '/data/web_static/releases/' + \
-            "{}".format(filename.split('.')[0])
-        # Define the temporary path for the archive
-        tmpName = "/tmpName/" + filename
-        # Upload the archive to the temporary path on the server
-        put(archive_path, "/tmpName/")
-        # Create the directory for the extracted files
-        run("mkdir -p {}/".format(name))
-        # Extract the archive to the specified directory
-        run("tar -xzf {} -C {}/".format(tmpName, name))
-        # Remove the temporary archive file
-        run("rm {}".format(tmpName))
-        # Move the contents of the extracted directory to the parent directory
-        run("mv {}/web_static/* {}/".format(name, name))
-        # Remove the empty web_static directory
-        run("rm -rf {}/web_static".format(name))
-        # Remove the current symbolic link
-        run("rm -rf /data/web_static/current")
-        # Create a new symbolic link to the extracted directory
-        run("ln -s {}/ /data/web_static/current".format(name))
+        # Upload the archive to the /tmp/ directory of the web server
+        put(archive_path, '/tmp/')
+
+        # Uncompress the archive to the folder /data/web_static/releases/
+        # <archive filename without extension> on the web server
+        filename = os.path.basename(archive_path)
+        folder_name = '/data/web_static/releases/' + \
+            os.path.splitext(filename)[0]
+        run('mkdir -p {}'.format(folder_name))
+        run('tar -xzf /tmp/{} -C {}'.format(filename, folder_name))
+
+        # Delete the archive from the web server
+        run('rm /tmp/{}'.format(filename))
+
+        # Move the contents of the folder /data/web_static/releases/
+        run('mv {}/web_static/* {}'.format(folder_name, folder_name))
+
+        # Delete the symbolic link /data/web_static/current from the web server
+        run('rm -rf {}/web_static'.format(folder_name))
+
+        # Delete the symbolic link /data/web_static/current
+        # from the web server
+        run('rm -rf /data/web_static/current')
+
+        # Create a new symbolic link /data/web_static/current on
+        # the web server, linked to the new version of your code
+        run('ln -s {} /data/web_static/current'.format(folder_name))
+
         return True
     except Exception:
         return False
