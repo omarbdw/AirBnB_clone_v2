@@ -89,7 +89,7 @@ def number_odd_or_even(n):
     Returns:
                     str: An HTML page indicating whether n is even or odd.
     """
-    return render_template('number_odd_or_even.html', n=n)
+    return render_template('6-number_odd_or_even.html', n=n)
 
 
 if __name__ == '__main__':
