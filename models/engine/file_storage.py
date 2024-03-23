@@ -26,9 +26,10 @@ class FileStorage:
         return FileStorage.__objects
 
     def new(self, obj):
-        """Adds new object to storage dictionary"""
-        key = '{}.{}'.format(type(obj).__name__, obj.id)
-        FileStorage.__objects[key] = obj
+        """sets in __objects the obj with key <obj class name>.id"""
+        if obj is not None:
+            key = obj.__class__.__name__ + "." + obj.id
+            self.__objects[key] = obj
 
     def save(self):
         """Saves storage dictionary to file"""
