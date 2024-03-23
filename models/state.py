@@ -11,10 +11,11 @@ from os import getenv
 class State(BaseModel):
     """ State class """
     __tablename__ = 'states'
-    name = Column(String(128), nullable=False)
     if getenv('HBNB_TYPE_STORAGE') == 'db':
+        name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state")
     else:
+        name = ""
         @property
         def cities(self):
             """Getter attribute that returns the list of City instances
