@@ -23,13 +23,15 @@ place_amenity = Table(
         String(60),
         ForeignKey('amenities.id'),
         primary_key=True,
-        nullable=False))
+        nullable=False)
+)
 
 
 class Place(BaseModel):
     """ A place to stay """
     __tablename__ = 'places'
-    
+
+
 if os.getenv('HBNB_TYPE_STORAGE') == 'db':
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -58,7 +60,7 @@ else:
     latitude = 0.0
     longitude = 0.0
     amenity_ids = []
-    
+
     @property
     def reviews(self):
         """Getter attribute that returns the list of Review instances
@@ -78,7 +80,7 @@ else:
             if amenity.id in self.amenity_ids:
                 amenity_list.append(amenity)
         return amenity_list
-    
+
     @amenities.setter
     def amenities(self, obj):
         """Setter attribute that handles append method for adding an Amenity.id
