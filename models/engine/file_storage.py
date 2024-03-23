@@ -29,13 +29,13 @@ class FileStorage:
             json.dump(temp, f)
 
     def reload(self):
-        """Reloads objects from file"""
+        """deserializes the JSON file to __objects"""
         try:
             with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-            for key, val in temp.items():
+                FileStorage.__objects = json.load(f)
+            for key, val in FileStorage.__objects.items():
                 cls = val['__class__']
-                self.new(eval(cls)(**val))
+                FileStorage.__objects[key] = eval(cls)(**val)
         except FileNotFoundError:
             pass
 
