@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
-import models
+from models.base_model import BaseModel
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
+from models.base_model import Base
 import os
 
 
@@ -16,3 +17,12 @@ class City(BaseModel, Base):
     else:
         state_id = ""
         name = ""
+        @property
+        def places(self):
+            """Getter attribute that returns the list of Place instances
+            with city_id equals to the current City.id"""
+            place_list = []
+            for place in storage.all(Place).values():
+                if place.city_id == self.id:
+                    place_list.append(place)
+            return place_list
