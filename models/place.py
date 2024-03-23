@@ -7,7 +7,7 @@ import models
 import os
 
 
-PlaceAmenity = Table(
+place_amenity = Table(
     'place_amenity',
     Base.metadata,
     Column(
