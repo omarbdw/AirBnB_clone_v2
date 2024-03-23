@@ -3,10 +3,8 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
-from models import storage
-from models.amenity import Amenity
-from models.review import Review
 import models
+import os
 
 
 class Place(BaseModel):
@@ -24,7 +22,7 @@ class Place(BaseModel):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    if models.storage_type == 'db':
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         place_amenity = Table(
             'place_amenity',
             Base.metadata,
@@ -49,7 +47,7 @@ class Place(BaseModel):
         reviews = relationship(
             "Review", cascade="all, delete", backref="place")
 
-    if models.storage_type == 'file':
+    if os.getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def reviews(self):
             """Getter attribute that returns the list of Review instances
