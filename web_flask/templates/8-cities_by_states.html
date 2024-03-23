@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>HBNB</title>
-	</head>
-	<body>
-		<h1>States</h1>
-		<ul>
+<!DOCTYPE HTML>
+<HTML LANG="en">
+	<HEAD>
+		<TITLE>HBNB</TITLE>
+	</HEAD>
+	<BODY>
+		<H1>States</H1>
+		<UL>
 			{% for state in states %}
-				<li>{{ state.id }}: {{ state.name }}</li>
-				<ul>
+				<LI>{{ state.id }}: {{ state.name }}</LI>
+				<UL>
 					{% for city in state.cities %}
-						<li>{{ city.id }}: {{ city.name }}</li>
+						<LI>{{ city.id }}: {{ city.name }}</LI>
 					{% endfor %}
-				</ul>
+				</UL>
 			{% endfor %}
-		</ul>
-	</body>
-</html>
+		</UL>
+	</BODY>
+</HTML>

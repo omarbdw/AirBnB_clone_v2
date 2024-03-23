@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>HBNB</title>
-		<style>
-			h1 {
-				text-transform: uppercase;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>STATES</h1>
-		<ul>
+<!DOCTYPE HTML>
+<HTML LANG="en">
+	<HEAD>
+		<TITLE>HBNB</TITLE>
+	</HEAD>
+	<BODY>
+		<H1>STATES</H1>
+		<UL>
 			{% for state in states %}
-				<li>{{ state.id }}: {{ state.name }}</li>
-				<ul>
+				<LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
+				<UL>
 					{% for city in state.cities %}
-						<li>{{ city.id }}: {{ city.name }}</li>
+						<LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
 					{% endfor %}
-				</ul>
+				</UL>
 			{% endfor %}
-		</ul>
-	</body>
-</html>
+		</UL>
+	</BODY>
+</HTML>
