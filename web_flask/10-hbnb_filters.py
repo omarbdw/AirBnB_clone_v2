@@ -19,7 +19,8 @@ def teardown_appcontext(exception):
 def hbnb_filters():
     states = sorted(storage.all(State).values(), key=lambda x: x.name)
     amenities = sorted(storage.all(Amenity).values(), key=lambda x: x.name)
-    return render_template('10-hbnb_filters.html', states=states, amenities=amenities)
+    return render_template('10-hbnb_filters.html',
+                           states=states, amenities=amenities)
 
 
 if __name__ == '__main__':
