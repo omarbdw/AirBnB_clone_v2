@@ -12,6 +12,7 @@ class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
     if getenv('HBNB_TYPE_STORAGE') == 'db':
+        id = Column(String(60), primary_key=True, nullable=False)
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state")
     else:
@@ -25,7 +26,3 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     city_list.append(city)
             return city_list
-        
-    def __init__(self, *args, **kwargs):
-        """ Initialize state """
-        super().__init__(*args, **kwargs)
