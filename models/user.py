@@ -4,6 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import os
+from models import storage
 
 
 class User(BaseModel, Base):
@@ -21,3 +22,11 @@ class User(BaseModel, Base):
         password = ""
         first_name = ""
         last_name = ""
+
+    @classmethod
+    def list_all(cls):
+        """ Return list of User instances """
+        user_list = []
+        for user in list(storage.all(User).values()):
+            user_list.append(user)
+        return user_list
