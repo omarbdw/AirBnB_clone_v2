@@ -4,6 +4,9 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 import os
+from models.place import Place
+from models.state import State
+from models import storage
 
 
 class City(BaseModel, Base):
