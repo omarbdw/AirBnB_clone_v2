@@ -5,7 +5,6 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 import os
 import models
-from models import storage
 
 
 class City(BaseModel, Base):
@@ -23,7 +22,7 @@ class City(BaseModel, Base):
         def places(self):
             """ Getter attribute that returns the list of Place instances """
             place_list = []
-            for place in list(storage.all("Place").values()):
+            for place in list(models.storage.all(models.Place).values()):
                 if place.city_id == self.id:
                     place_list.append(place)
             return place_list
