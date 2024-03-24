@@ -1,55 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="styles/4-common.css">
-    <link rel="stylesheet" href="styles/3-header.css">
-    <link rel="stylesheet" href="styles/3-footer.css">
-    <link rel="stylesheet" href="styles/6-filters.css">
-    <link rel="icon" href="images/icon.png" type="image/png">
-    <title>AirBnb Clone</title>
-  </head>
-  <body>
-    <header>
-      <div class="logo">
-      </div>
-    </header>
-    <div class="container">
-      <section class="filters">
-        <div class="locations">
-          <h3>States</h3>
-          <h4>&nbsp;</h4>
-          <ul class="popover">
+<!DOCTYPE HTML>
+<HTML LANG="en">
+	<HEAD>
+		<META CHARSET="utf-8">
+		<LINK REL="stylesheet" HREF="styles/4-common.css">
+		<LINK REL="stylesheet" HREF="styles/3-header.css">
+		<LINK REL="stylesheet" HREF="styles/3-footer.css">
+		<LINK REL="stylesheet" HREF="styles/6-filters.css">
+		<LINK REL="icon" HREF="images/icon.png" TYPE="image/png">
+		<TITLE>AirBnb Clone</TITLE>
+	</HEAD>
+	<BODY>
+		<HEADER>
+			<DIV CLASS="logo">
+			</DIV>
+		</HEADER>
+		<DIV CLASS="container">
+			<SECTION CLASS="filters">
+				<DIV CLASS="locations">
+					<H3>States</H3>
+					<H4>&nbsp;</H4>
+					<UL CLASS="popover">
 	    {% for state in states|sort(attribute='name') %}
-              <li>
-                <h2>{{ state.name }}:</h2>
-                <ul>
+							<LI>
+								<H2>{{ state.name }}:</H2>
+								<UL>
 		  {% for city in state.cities|sort(attribute='name') %}
-                    <li>{{ city.name }}</li>
+										<LI>{{ city.name }}</LI>
 		  {% endfor %}
-                </ul>
-              </li>
+								</UL>
+							</LI>
 	    {% endfor %}
-          </ul>
-        </div>
-        <div class="amenities">
-          <h3>Amenities</h3>
-          <h4>&nbsp;</h4>
-          <ul class="popover">
+					</UL>
+				</DIV>
+				<DIV CLASS="amenities">
+					<H3>Amenities</H3>
+					<H4>&nbsp;</H4>
+					<UL CLASS="popover">
 	    {% for amenity in amenities|sort(attribute='name') %}
-              <li>{{ amenity.name }}</li>
+							<LI>{{ amenity.name }}</LI>
 	    {% endfor %}
-          </ul>
-        </div>
-        <button>
-          Search
-        </button>
-      </section>
-    </div>
-    <footer>
-      <p>
-        Holberton School
-      </p>
-    </footer>
-  </body>
-</html>
+					</UL>
+				</DIV>
+				<BUTTON>
+					Search
+				</BUTTON>
+			</SECTION>
+		</DIV>
+		<FOOTER>
+			<P>
+				Holberton School
+			</P>
+		</FOOTER>
+	</BODY>
+</HTML>
