@@ -1,10 +1,8 @@
 #!/usr/bin/python3
-
+""" Module that starts a Flask web application """
 from flask import Flask, render_template
 from models import storage
-
-""" Module that starts a Flask web application """
-
+from models import *
 app = Flask(__name__)
 
 
@@ -15,6 +13,13 @@ def teardown_session(exception):
 
 @app.route('/cities_by_states', strict_slashes=False)
 def cities_by_states():
+    """
+    Display a webpage with a list of cities grouped by states.
+
+    Returns:
+        The rendered template '8-cities_by_states.html'
+        with the states variable.
+    """
     states = storage.all("State").values()
     return render_template('8-cities_by_states.html', states=states)
 
